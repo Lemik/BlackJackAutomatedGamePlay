@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2016 by Lemik (http://jsbin.com/kewuvi/61/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+</head>
+<body>
+
+  <h1>sum</h1>
+  
+<form action="demo.asp">
+       X: <input id="xi" type="text" value="2"><br>
+       Y: <input id="yi" type="text" value="3"><br>
+       diller: <input id="zi" type="checkbox" checked>
+<br>
+  
+  
+<input type="submit" onClick="game()" value="Submit">
+<br>
+  
+  out : <input id="out" type="text" value=""><br>
+</form>
+  
+
+<script id="jsbin-javascript">
+var cards=["A","K","D","B",10,9,8,7,6,5,4,3,2];
+var DCards=[ "A","K","D","B",10,9,8,7,6,5,4,3,2,
+                     "A","K","D","B",10,9,8,7,6,5,4,3,2,
+                     "A","K","D","B",10,9,8,7,6,5,4,3,2,
+                     "A","K","D","B",10,9,8,7,6,5,4,3,2 ];
+var NOF=4;//namber Of Card in Slot befor shuffle;
+
+var diller =[];
+var player1=[];
+
+function game(){
+//shuffle cards  
+  DCards=shuffle(DCards);
+  console.log(DCards);
+//SetUP game  
+  player1.push(getCard());
+  diller.push(getCard());
+  player1.push(getCard());
+  diller.push(getCard());
+
+  console.log(player1);
+  console.log(diller);
+
+//Player Action;   
+  PlayerStep();
+//Diller Action;     
+  DillerStep();
+//Game calculetion  
+  Calculetion();
+}
+
+function DillerStep(){
+  do{
+     var sum = getCardSum(diller);  
+     if(sum>21){
+       more21(diller);
+       sum=getCardSum(diller);
+     }
+     console.log("Diller sum: " + sum); 
+    
+  if(sum<17){
+     diller.push(getCard());
+     console.log("Diller hand " + diller);}
+  else {
+    console.log(diller);
+    console.log("Last Diller sum: " + sum);  
+    return sum;}
+  }while(true);
+}
+function PlayerStep(){
+  
+do{
+     var sum = getCardSum(player1);  
+     if(sum>21){
+       more21(player1);
+       sum=getCardSum(player1);
+     }
+     console.log("Player sum: " + sum); 
+    
+     if(sum<17){
+           player1.push(getCard());
+           console.log("Player hand " + player1);}
+  else {
+            console.log(player1);
+             console.log("Last Player sum: " + sum);  
+        return sum;
+  }
+}while(true);
+ 
+}
+function Calculetion(){
+
+}
+function getCardSum(cards){
+  var sum=0;
+  for(var i=0;i<cards.length;i++ ){
+        sum += parseInt(cardsIntorpritation(cards[i]));}
+  return sum;
+}
+
+function more21(cards){
+    if(HandHaveA(cards)){
+       replaseAwith1(cards);
+    }
+}
+
+function getCard(){
+  if(DCards.length<NOF){
+    console.log("RESOOOOOORT");
+    return;
+  }
+  else{
+  return DCards.pop();
+    }
+}
+
+function replaseAwith1(hand){
+  console.log("replaseAwith1#############");
+  for(var i=0;i<=hand.length;i++ ){
+       if (hand[i]=="A")
+    {hand[i]=1;    return;}
+  }
+return; 
+}
+
+function HandHaveA(hand){
+for(var i=0;i<hand.length;i++ ){
+       if (hand[i]=="A"){
+           console.log("true");
+        return true;}
+}
+  console.log("false");
+  return false;
+}
+
+function cardsIntorpritation(card){  
+   if(card=="A")
+     return 11;
+   else if(card=="B" || card=="D" || card=="K")
+    return 10;
+   else return card; 
+}
+
+//////////////////////////////////////////////////////////////////////temp  
+function y() {
+var x1 = parseInt(cardsIntorpritation(document.getElementById('xi').value));
+var y1 = parseInt(cardsIntorpritation(document.getElementById('yi').value));
+   console.log(x1);
+   console.log(y1);
+var m = x1+y1;
+
+document.getElementById("out").value = m;
+} 
+
+///////////////////////////Functions
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+</script>
+</body>
+
+</html>
